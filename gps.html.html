@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <img alt="Bhavadeepa School"
+       src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS45bAXmP8mubmYj-VCDR6u2FAVfF3_vYOx2WQExZdDisazRDFPSG6sTEFOaQRJndF6TOc&usqp=CAU">
+  <title>GPS Location Tracker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 1200px;
+      padding: 10px;
+    }
+    #cards {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 800px;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    #map {
+      height: 60vh;
+      width: 100%;
+      max-width: 800px;
+    }
+    .card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 10px;
+      margin: 5px;
+      flex: 1;
+    }
+    .card-header {
+      background-color: #007bff;
+      color: white;
+      padding: 10px;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+    }
+    .card-header.green {
+      background-color: #28a745;
+    }
+    #maps-link {
+      display: block;
+      margin-top: 10px;
+      text-align: center;
+      color: blue;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    @media (min-width: 768px) {
+      #cards {
+        flex-direction: row;
+      }
+      #map {
+        order: 2;
+      }
+      .card {
+        margin: 5px;
+      }
+    }
+  </style>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLoTLCBXO9T0KLDSQNbRFkuweQHyqn0-Q"></script>
+</head>
+<body>
+  <div id="container">
+    <h1>GPS Location Tracker</h1>
+    <div id="cards">
+      <div class="card">
+        <div class="card-header"><center>Status</center></div>
+        <p id="gps-status">GPS Status: N/A</p>
+        <p id="esp8266-status">WiFi Status: N/A</p>
+      </div>
+      <div class="card">
+        <div class="card-header green"><center>Details</center></div>
+        <p id="speed">Speed: N/A</p>
+        <p id="distance">Distance: N/A</p>
+      </div>
+    </div>
+    <div id="map"></div>
+    <a id="maps-link" href="#" target="_blank">Click to open in Google Maps</a>
+  </div>
+  <script>
+    var firebaseConfig = {
+      apiKey: "eoOoeYvT5BBiMBXolBTR1l1b7D0YED4WtJvNyI4K",
+      databaseURL: "https://gps-vehicle-tracking-17561-default-rtdb.firebaseio.com/",
+      projectId: "gps-location-tracker-427506",
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
+    var database = firebase.database();
+    var trailCoords = [];
+
+    function initMap() {
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 15,
+        center: { lat: 0, lng: 0 }
+      });
+      var marker = new google.maps.Marker({
+        position: { lat: 0, lng: 0 },
+        map: map,
+        title: 'Vehicle Location'
+      });
+      var trailPath = new google.maps.Polyline({
+        path: trailCoords,
+        geodesic: true,
+        strokeColor: '#FF0000',
+        strokeOpacity: 1.0,
+        strokeWeight: 2
+      });
+
+      trailPath.setMap(map);
+
+      database.ref('/GPS').on('value', (snapshot) => {
+        var data = snapshot.val();
+        var latitude = data.latitude;
+        var longitude = data.longitude;
+
+        var newPosition = new google.maps.LatLng(latitude, longitude);
+        marker.setPosition(newPosition);
+        map.setCenter(new google.maps.LatLng(latitude, longitude));
+
+        trailCoords.push(new google.maps.LatLng(latitude, longitude));
+        trailPath.setPath(trailCoords);
+
+        var mapsLink = document.getElementById('maps-link');
+        mapsLink.href = `https://www.google.com/maps?q=${latitude},${longitude}`;
+        mapsLink.textContent = 'Click to open in Google Maps';
+
+        console.log('Latitude:', latitude, 'Longitude:', longitude);
+      });
+
+      database.ref('/status').on('value', (snapshot) => {
+        var status = snapshot.val();
+        document.getElementById('gps-status').textContent = 'GPS Status: ' + status.gps;
+        document.getElementById('esp8266-status').textContent = 'WiFi Status: ' + status.esp8266;
+
+        console.log('GPS Status:', status.gps, 'WiFi Status:', status.esp8266);
+      });
+
+      database.ref('/GPS/speed').on('value', (snapshot) => {
+        var speed = snapshot.val();
+        document.getElementById('speed').textContent = 'Speed: ' + speed.toFixed(2) + ' km/h';
+      });
+
+      database.ref('/GPS/distance').on('value', (snapshot) => {
+        var distance = snapshot.val();
+        document.getElementById('distance').textContent = 'Distance: ' + distance.toFixed(2) + ' meters';
+      });
+    }
+
+    window.onload = initMap;
+  </script>
+</body>
+<footer>
+  <p>&copy; 2024 Bhavadeepa School</p>
+</footer>
+</html>

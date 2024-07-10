@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
+    }
+    #login-container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+    #login-form {
+      display: flex;
+      flex-direction: column;
+    }
+    #login-form input {
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 16px;
+      width: calc(100% - 20px);
+      box-sizing: border-box;
+    }
+    #login-form button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      width: calc(100% - 20px);
+      box-sizing: border-box;
+    }
+    #error-message {
+      color: red;
+      margin-top: 10px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="login-container">
+    <h1>Login</h1>
+    <div id="login-form">
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <button onclick="login()">Login</button>
+      <p id="error-message">Invalid email or password</p>
+    </div>
+  </div>
+  <script>
+    function login() {
+      var email = document.getElementById('email').value;
+      var password = document.getElementById('password').value;
+      if (email === 'shailesh336mannur@gmail.com' && password === '336@shai') {
+        window.location.href = 'https://shailesh-bitwise.github.io/gps_tracker/';
+      } else {
+        var errorMessage = document.getElementById('error-message');
+        errorMessage.style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html>
