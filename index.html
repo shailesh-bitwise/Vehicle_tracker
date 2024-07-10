@@ -63,11 +63,13 @@
     function login() {
       var email = document.getElementById('email').value;
       var password = document.getElementById('password').value;
+      var errorMessage = document.getElementById('error-message');
+      errorMessage.style.display = 'none';  // Hide error message before checking
+      
       if (email === 'shailesh336mannur@gmail.com' && password === '336@shai') {
         window.location.href = 'https://shailesh-bitwise.github.io/Vehicle_tracker/gps.html';
       } else {
-        var errorMessage = document.getElementById('error-message');
-        errorMessage.style.display = 'block';
+        errorMessage.style.display = 'block';  // Show error message if credentials are incorrect
       }
     }
   </script>
