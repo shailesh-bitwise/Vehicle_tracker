@@ -3,7 +3,7 @@
 <head>
   <title>GPS Vehicle Tracker</title>
   <link rel="icon" type="image/x-icon" href="https://storage.live.com/users/0x0ea74822dffda99b/myprofile/expressionprofile/profilephoto:UserTileStatic/p?ck=1&ex=720&sid=1C20CBE80D7761252A9CDF380C6E60CF&fofoff=1">
-  <img  src="https://th.bing.com/th/id/OIG2.fymHYMDwWZOkRAfYpKfS?w=270&h=270&c=6&r=0&o=5&dpr=1.3&pid=ImgGn">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -12,6 +12,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      background-color: #f0f0f0;
     }
     #container {
       display: flex;
@@ -101,6 +102,7 @@
 <body>
   <div id="container">
     <h1>GPS Location Tracker</h1>
+    <img src="https://th.bing.com/th/id/OIG2.fymHYMDwWZOkRAfYpKfS?w=270&h=270&c=6&r=0&o=5&dpr=1.3&pid=ImgGn" alt="Tracker Image" style="width: 100%; max-width: 280px; margin-bottom: 20px;">
     <div id="cards">
       <div class="card">
         <div class="card-header"><center>Status</center></div>
@@ -120,7 +122,7 @@
   </div>
   <script>
     var firebaseConfig = {
-      apiKey: "8Va2TDIVgKfHNYeEQhQjsb2X2UKzeMYuMlOK3NPO",  
+      apiKey: "8Va2TDIVgKfHNYeEQhQjsb2X2UKzeMYuMlOK3NPO",
       databaseURL: "https://gps-vehicle-tracker-3e8af-default-rtdb.firebaseio.com/",
       projectId: "gps-vehicle-tracker-3e8af",
     };
@@ -191,8 +193,8 @@
 
     window.onload = initMap;
   </script>
+  <footer>
+    <p>&copy; 2024 SM All Right Reserved</p>
+  </footer>
 </body>
-<footer>
-  <p>&copy; 2024 SM All Right Reserved</p>
-</footer>
 </html>
