@@ -193,6 +193,28 @@
 
     window.onload = initMap;
   </script>
+  <script src="https://s3.ap-southeast-1.amazonaws.com/data.ap-southeast-1.smartcoder.ai/public/widget/smartcoder-widget-1.0.js"></script>
+<script>
+    fetch('{{backend_smartcoder_login_url}}', {
+      headers: {
+        // set backend token
+        // 'Authorization': localStorage.getItem('Authorization')
+      },
+      method:'GET'
+    })
+    .then(response => response.json()).then((res) => {
+      const widget = new SmartcodeWidget();
+      widget.createApp({
+        botId: "1821377493779533826",
+        workspaceId: "1821377235103715329",
+        floatPopcornOptions: {
+          placement: "bottom-right"
+        },
+        // authenticator: {{token}}
+      });
+    })
+    // widget.removeApp(); // remove widget from page
+</script>
   <footer>
     <p>&copy; 2024 SM All Right Reserved</p>
   </footer>
