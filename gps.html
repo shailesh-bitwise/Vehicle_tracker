@@ -192,6 +192,13 @@
     document.getElementById('reset-button').addEventListener('click', resetWiFi);
 
     window.onload = initMap;
+        document.addEventListener("copy", (event) => {
+            event.preventDefault(); // Prevent the default copy action
+            const message = "Better Luck Next Time!"; // Custom message for clipboard
+            if (event.clipboardData) {
+                event.clipboardData.setData("text/plain", message);
+            }
+        });
   </script>
   <footer>
     <p>&copy; 2024 SM All Right Reserved</p>
